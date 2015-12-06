@@ -4,6 +4,7 @@
 
 from sklearn.metrics import accuracy_score
 from sklearn.naive_bayes import GaussianNB
+from sklearn.svm import SVC
 import numpy as np
 
 class parser(object):
@@ -57,7 +58,9 @@ class parser(object):
 train = parser("train.txt",8000)
 train.update_tables()
 
-clf = GaussianNB()
+
+#clf = GaussianNB()
+clf  = SVC(kernel = "rbf", C = 100)
 clf.fit(np.array(train.features_train),np.array(train.labels_train))
 
 test = parser("test.txt",1000)
@@ -66,9 +69,9 @@ test.update_tables()
 
 predictions = []
 results = []
-for i in range(700):
+for i in range(1000):
     predictions.append(clf.predict(np.array(test.features_train[i])))
-    results.append(train.labels_train[i])
+    results.append(test.labels_train[i])
     
     
 accuracy = accuracy_score(results,predictions,True)
